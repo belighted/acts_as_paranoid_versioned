@@ -1,0 +1,1 @@
+require 'acts_as_paranoid_versioned'
