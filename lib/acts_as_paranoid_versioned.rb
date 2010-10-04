@@ -28,7 +28,6 @@ module ParanoidVersioned
       cattr_accessor :triggering_fields
       self.triggering_fields = options.delete(:triggered_by)
 
-      before_validation_on_create :set_started_at_date
       before_validation_on_update :create_new_paranoid_version, :if => :update_triggering_fields?
     end
   end
@@ -44,8 +43,9 @@ module ParanoidVersioned
     end
 
     protected
-    def set_started_at_date
-      self.started_at = Time.now
+
+    def after_initialize
+      self[:started_at] ||= Time.now
     end
 
     def update_triggering_fields?
