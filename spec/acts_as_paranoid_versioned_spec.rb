@@ -22,7 +22,7 @@ describe :paranoid_versioned do
       worker.tasks.first.ended_at.should be_nil
     end
 
-    it "sets the ended_at date when destroying a new task" do
+    it "sets the ended_at date when destroying a task" do
       worker = Worker.create(:name => 'R2D2')
       task   = worker.tasks.create(:name => "Follow C3PO")
       task.destroy
