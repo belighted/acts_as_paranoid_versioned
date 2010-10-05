@@ -54,7 +54,7 @@ module ParanoidVersioned
     end
 
     def create_new_paranoid_version
-      new_version = self.class.new(attributes)
+      new_version = self.class.new(attributes.merge({:started_at => Time.now}))
       self.reload
 
       self.class.transaction do
