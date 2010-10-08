@@ -10,7 +10,7 @@ Gem::Specification.new do |s|
   s.description = %q{Paranoid versioning system that keeps versions on initial table.}
   s.email = %q{ml@belighted.com}
   s.extra_rdoc_files = ["README.rdoc", "lib/acts_as_paranoid_versioned.rb"]
-  s.files = ["README.rdoc", "Rakefile", "acts_as_paranoid_versioned.gemspec", "init.rb", "lib/acts_as_paranoid_versioned.rb", "spec/acts_as_paranoid_versioned_spec.rb", "spec/spec_helper.rb", "Manifest"]
+  s.files = ["Manifest", "README.rdoc", "Rakefile", "acts_as_paranoid_versioned.gemspec", "init.rb", "lib/acts_as_paranoid_versioned.rb", "spec/acts_as_paranoid_versioned_spec.rb", "spec/spec_helper.rb"]
   s.homepage = %q{http://github.com/}
   s.rdoc_options = ["--line-numbers", "--inline-source", "--title", "Acts_as_paranoid_versioned", "--main", "README.rdoc"]
   s.require_paths = ["lib"]

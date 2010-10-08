@@ -1,10 +1,10 @@
 = Acts As Paranoid Versioned
 
-Acts As Paranoid Versioned let's you have your versioned in the same table as your original records.
+Acts As Paranoid Versioned lets you have your versioned records in the same table as your original records.
 It assumed there is a started_at and ended_at column in your database table.
 
-Each new record has a started_at date set. When you destroy a record, it's end_date is set.
-When you update one of the fields specified, the end date on the current record is set, and another record is created with the new data for the specified fields and an empty end_date.
+Each new record has a started_at date set. When you destroy a record, its end_date is set.
+When you update one of the fields specified as triggers, the end date on the current record is set, and another record is created with the new data for the specified fields and an empty end_date.
 
 Every record that has a non nil ended_at date will not show up by default. Mocking the paranoid deleted_at behaviour.
 
@@ -22,11 +22,11 @@ script/plugin install git://github.com/belighted/acts_as_paranoid_versioned.git
 
 == Usage
 
-Class Worker < ActiveRecord::Base
-  acts_as_paranoid_versioned :triggered_by => [:state]
-end
+  Class Worker < ActiveRecord::Base
+    acts_as_paranoid_versioned :triggered_by => [:state]
+  end
 
-Means that each time the state is updated, a new record is created and the previous record's ended_at date with the old state is filled.
+Means that each time the state is updated, a new record is created and the previous record's ended_at date is filled.
 That way, we can track how much time a Worker has been on any specified state.
 
 You can also set multiple fields in the triggered_by array.
@@ -53,6 +53,3 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
-
-Author: Marc Lainez
-Github: mlainez

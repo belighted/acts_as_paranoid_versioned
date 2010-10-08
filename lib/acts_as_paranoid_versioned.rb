@@ -7,14 +7,12 @@ module ParanoidVersioned
     def acts_as_paranoid_versioned(options = {})
       include ParanoidVersioned::InstanceMethods
 
-      raise ArgumentError, "Key triggered_by is mandatory" unless options.key?(:triggered_by)
-
       default_scope :conditions => {:ended_at => nil}
 
       cattr_accessor :triggering_fields
-      self.triggering_fields = options.delete(:triggered_by)
+      self.triggering_fields = options.delete(:triggered_by) || raise(ArgumentError, "triggered_by is mandatory")
 
-      before_validation_on_create :set_start_date
+      before_validation_on_create :init_start_date
       before_validation_on_update :create_new_paranoid_version, :if => :update_triggering_fields?
     end
   end
@@ -31,12 +29,12 @@ module ParanoidVersioned
 
     protected
 
-    def set_start_date
+    def init_start_date
       self.started_at ||= Time.now
     end
 
     def update_triggering_fields?
-      triggering_fields.any?{|field| send("#{field}_changed?")}
+      (changes.keys & triggering_fields.map(&:to_s)).any?
     end
 
     def create_new_paranoid_version
