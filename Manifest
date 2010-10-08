@@ -1,0 +1,8 @@
+README.rdoc
+Rakefile
+acts_as_paranoid_versioned.gemspec
+init.rb
+lib/acts_as_paranoid_versioned.rb
+spec/acts_as_paranoid_versioned_spec.rb
+spec/spec_helper.rb
+Manifest
