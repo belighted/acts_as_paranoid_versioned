@@ -62,19 +62,19 @@ describe :paranoid_versioned do
   describe :active? do
     it "returns true when there is a start date and no end date" do
       task = Task.create
-      task.active?.should be_true
+      task.should be_active
     end
 
     it "returns false when there is no start date" do
       task = Task.create
       task.started_at = nil
       task.save!
-      task.active?.should be_false
+      task.should_not be_active
     end
 
     it "returns false when there are a start and end dates" do
       task = Task.create(:ended_at => Time.now)
-      task.active?.should be_false
+      task.should_not be_active
     end
   end
 
