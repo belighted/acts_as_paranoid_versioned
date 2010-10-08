@@ -1,16 +1,4 @@
 module ParanoidVersioned
-  class BadOptions < StandardError
-    def initialize( keys )
-      super( "Keys: #{keys.join( "," )} are not known by ParanoidVersioned" )
-    end
-  end
-
-  class MissingTriggers < StandardError
-    def initialize
-      super( "Key: triggered_by is mandatory in ParanoidVersioned" )
-    end
-  end
-
   def self.included(base)
     base.extend ClassMethods
   end
@@ -19,9 +7,7 @@ module ParanoidVersioned
     def acts_as_paranoid_versioned(options = {})
       include ParanoidVersioned::InstanceMethods
 
-      bad_keys = options.keys - [:triggered_by]
-      raise ParanoidVersioned::BadOptions.new( bad_keys ) unless bad_keys.empty?
-      raise ParanoidVersioned::MissingTriggers.new unless options.keys.include?(:triggered_by)
+      raise ArgumentError, "Key triggered_by is mandatory" unless options.key?(:triggered_by)
 
       default_scope :conditions => {:ended_at => nil}
 
@@ -36,29 +22,29 @@ module ParanoidVersioned
   module InstanceMethods
     def destroy
       self.ended_at = Time.now
-      self.save!
+      save!
     end
 
     def active?
-      self.started_at.present? && self.ended_at.blank?
+      started_at.present? && ended_at.blank?
     end
 
     protected
 
     def set_start_date
-      self[:started_at] ||= Time.now
+      self.started_at ||= Time.now
     end
 
     def update_triggering_fields?
-      self.triggering_fields.any?{|field| self.send("#{field.to_s}_changed?")}
+      triggering_fields.any?{|field| send("#{field}_changed?")}
     end
 
     def create_new_paranoid_version
       new_version = self.class.new(attributes.merge({:started_at => Time.now}))
-      self.reload
+      reload
 
       self.class.transaction do
-        self.destroy
+        destroy
         new_version.save!
       end
     end
