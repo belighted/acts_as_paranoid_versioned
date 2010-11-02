@@ -7,7 +7,7 @@ module ParanoidVersioned
     def acts_as_paranoid_versioned(options = {})
       include ParanoidVersioned::InstanceMethods
 
-      default_scope :conditions => {:ended_at => nil}
+      default_scope :conditions => {:ended_at => nil} if options.delete(:paranoid) != false
 
       cattr_accessor :triggering_fields
       self.triggering_fields = options.delete(:triggered_by) || raise(ArgumentError, "triggered_by is mandatory")
